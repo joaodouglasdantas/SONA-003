@@ -1,0 +1,20 @@
+rules_version = '2';
+
+// Regras iniciais de Storage — fotos de avatar personalizado.
+// Cada usuário só pode subir/ler a própria foto, em uma pasta com o próprio uid.
+// Lembrete de privacidade (Seção 7 da especificação): apagar a foto original
+// assim que o avatar personalizado for entregue.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    match /avatares/{userId}/{fileName} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Bloqueia qualquer outro caminho por padrão.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
