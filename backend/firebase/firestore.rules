@@ -1,0 +1,23 @@
+rules_version = '2';
+
+// Regras iniciais — dados de humor/diário são dado sensível de saúde.
+// Cada usuário só acessa os próprios registros. Ajustar quando o vínculo
+// terapeuta-paciente for modelado (sem dashboard do terapeuta no MVP).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /registros/{registroId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    match /terapeutas/{terapeutaId} {
+      allow read: if request.auth != null && request.auth.uid == terapeutaId;
+      allow write: if false; // gerenciado manualmente/admin no MVP
+    }
+  }
+}

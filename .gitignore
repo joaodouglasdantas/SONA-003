@@ -1,0 +1,18 @@
+# Sistema operacional
+desktop.ini
+.DS_Store
+Thumbs.db
+
+# Node / Expo (mobile-app)
+node_modules/
+.expo/
+dist/
+*.log
+
+# Variáveis de ambiente
+.env
+.env.local
+
+# Editor
+.vscode/
+.idea/
